@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,26 +9,41 @@
     <link rel="stylesheet" href="style.css">
     <title>画板</title>
 </head>
-<body>
-    <div id="canvas">
 
-    </div>
+<body>
+    <canvas id="canvas">
+
+    </canvas>
     <script>
-        canvas.onmousemove = (e)=>{
-            console.log(e.clientX);
-            let div = document.createElement("div")
-            div.style.position = "absolute"
-            div.style.left = e.clientX +"px"
-            div.style.top = e.clientY + "px"
-            div.style.border = "1px solid black"
-            div.style.height = "6px"
-            div.style.width = "6px"
-            div.style.marginLeft = "-3px"
-            div.style.marginTop = "-3px"
-            div.style.borderRadius = "50%"
-            div.style.backgroundColor = "black"
-            canvas.appendChild(div);
+        var canvas = document.getElementById("canvas");
+        canvas.width = document.documentElement.clientWidth
+        canvas.height = document.documentElement.clientHeight
+        if (canvas.getContext) {
+            var ctx = canvas.getContext("2d");
+            ctx.fillStyle = "black"
+            ctx.strokeStyle = "none"
+        }
+
+        let painting = false
+        canvas.onmousedown= ()=>{
+            painting = true
+        }
+
+        canvas.onmousemove = (e) => {
+            if (painting ===true){
+            ctx.beginPath()
+            ctx.arc(e.clientX,e.clientY,10,0,2*Math.PI)
+            ctx.stroke()
+            ctx.fill()
+        }
+        else{
+            console.log("不画")
+        }
+        }
+        canvas.onmouseup = ()=>{
+            painting = false
         }
     </script>
 </body>
+
 </html>
